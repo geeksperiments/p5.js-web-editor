@@ -141,9 +141,45 @@ function Editor({
       tidyCode,
       getContent,
       showSearch,
-      updateFileContent: updateEditorFileContent
+      updateFileContent: updateEditorFileContent,
+      getSelection: () => {
+        const view = codemirrorView.current;
+        if (!view) return null;
+        const editorSelection = view.state.selection;
+        const selection = editorSelection.main.empty
+          ? editorSelection.ranges.find((range) => !range.empty) ||
+            editorSelection.main
+          : editorSelection.main;
+        return {
+          from: selection.from,
+          to: selection.to,
+          head: selection.head,
+          text: selection.empty
+            ? ''
+            : view.state.sliceDoc(selection.from, selection.to)
+        };
+      },
+      getCursorPosition: () => {
+        const view = codemirrorView.current;
+        return view ? view.state.selection.main.head : null;
+      },
+      replaceRange: (from, to, insert) => {
+        const view = codemirrorView.current;
+        if (!view) return;
+        view.dispatch({
+          changes: { from, to, insert },
+          selection: { anchor: from + insert.length }
+        });
+        view.focus();
+      }
     });
-  }, [tidyCode, showSearch, getContent, updateEditorFileContent]);
+  }, [
+    tidyCode,
+    showSearch,
+    getContent,
+    updateEditorFileContent,
+    codemirrorView
+  ]);
 
   // When the CM container div mounts, we set up CodeMirror.
   const onContainerMounted = useCallback(setupCodeMirrorOnContainerMounted, []);

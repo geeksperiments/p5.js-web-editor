@@ -1,0 +1,168 @@
+@use "sass:math";
+
+.p5-assistant {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  font-size: #{math.div(12, $base-font-size)}rem;
+  @include themify() {
+    color: getThemifyVariable('primary-text-color');
+    background-color: getThemifyVariable('console-background-color');
+  }
+}
+
+.p5-assistant__toolbar,
+.p5-assistant__composer-footer,
+.p5-assistant__insert-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: #{math.div(8, $base-font-size)}rem;
+}
+
+.p5-assistant__toolbar {
+  flex: 0 0 auto;
+  padding: #{math.div(6, $base-font-size)}rem #{math.div(8, $base-font-size)}rem;
+  @include themify() {
+    border-bottom: 1px solid getThemifyVariable('ide-border-color');
+  }
+}
+
+.p5-assistant__toolbar-actions,
+.p5-assistant__insert-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: #{math.div(6, $base-font-size)}rem;
+}
+
+.p5-assistant__toolbar button,
+.p5-assistant__insert-actions button,
+.p5-assistant__composer-footer button {
+  border: 1px solid;
+  padding: #{math.div(4, $base-font-size)}rem #{math.div(8, $base-font-size)}rem;
+  cursor: pointer;
+  @include themify() {
+    border-color: getThemifyVariable('ide-border-color');
+    color: getThemifyVariable('primary-text-color');
+    background-color: getThemifyVariable('console-background-color');
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.45;
+  }
+}
+
+.p5-assistant__settings {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: #{math.div(5, $base-font-size)}rem #{math.div(8, $base-font-size)}rem;
+  padding: #{math.div(8, $base-font-size)}rem;
+  @include themify() {
+    border-bottom: 1px solid getThemifyVariable('ide-border-color');
+    color: getThemifyVariable('secondary-text-color');
+  }
+  input,
+  select {
+    min-width: 0;
+    padding: #{math.div(4, $base-font-size)}rem;
+    border: 1px solid;
+    @include themify() {
+      border-color: getThemifyVariable('ide-border-color');
+      color: getThemifyVariable('primary-text-color');
+      background-color: getThemifyVariable('console-background-color');
+    }
+  }
+  p {
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+}
+
+.p5-assistant__messages {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: #{math.div(10, $base-font-size)}rem;
+}
+
+.p5-assistant__empty,
+.p5-assistant__thinking,
+.p5-assistant__role,
+.p5-assistant__composer-footer span,
+.p5-assistant__insert-actions span {
+  @include themify() {
+    color: getThemifyVariable('secondary-text-color');
+  }
+}
+
+.p5-assistant__message {
+  margin-bottom: #{math.div(14, $base-font-size)}rem;
+  p {
+    margin: #{math.div(4, $base-font-size)}rem 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
+
+.p5-assistant__role {
+  margin-bottom: #{math.div(4, $base-font-size)}rem;
+  font-weight: bold;
+}
+
+.p5-assistant__code {
+  max-height: 16rem;
+  overflow: auto;
+  margin: #{math.div(6, $base-font-size)}rem 0;
+  padding: #{math.div(8, $base-font-size)}rem;
+  font-family: Inconsolata, monospace;
+  @include themify() {
+    border: 1px solid getThemifyVariable('ide-border-color');
+    background-color: getThemifyVariable('console-input-background-color');
+  }
+  .cm-editor {
+    font-family: Inconsolata, monospace;
+    font-size: inherit;
+    .cm-content {
+      padding: 0;
+    }
+    .cm-line {
+      padding: 0;
+    }
+  }
+}
+
+.p5-assistant__error {
+  color: #d1242f;
+  white-space: pre-wrap;
+}
+
+.p5-assistant__composer {
+  flex: 0 0 auto;
+  padding: #{math.div(8, $base-font-size)}rem;
+  @include themify() {
+    border-top: 1px solid getThemifyVariable('ide-border-color');
+  }
+  textarea {
+    display: block;
+    width: 100%;
+    min-height: 4.5rem;
+    max-height: 12rem;
+    resize: vertical;
+    padding: #{math.div(7, $base-font-size)}rem;
+    border: 1px solid;
+    font: inherit;
+    @include themify() {
+      border-color: getThemifyVariable('ide-border-color');
+      color: getThemifyVariable('primary-text-color');
+      background-color: getThemifyVariable('console-background-color');
+    }
+  }
+}
+
+.p5-assistant__composer-footer {
+  margin-top: #{math.div(6, $base-font-size)}rem;
+  span {
+    font-size: #{math.div(10, $base-font-size)}rem;
+  }
+}

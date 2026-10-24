@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import SplitPane from 'react-split-pane';
 import IDEKeyHandlers from '../components/IDEKeyHandlers';
 import Sidebar from '../components/Sidebar';
-import PreviewFrame from '../components/PreviewFrame';
+import PreviewAssistantPanel from '../components/PreviewAssistantPanel';
 import Console from '../components/Console';
 import Toast from '../components/Toast';
 import { updateFileContent } from '../actions/files';
@@ -109,10 +109,10 @@ const IDEView = () => {
   const ide = useSelector((state) => state.ide);
   const preferences = useSelector((state) => state.preferences);
   const project = useSelector((state) => state.project);
+  const files = useSelector((state) => state.files);
+  const consoleEvents = useSelector((state) => state.console);
   const isUserOwner = useSelector(getIsUserOwner);
   const dispatch = useDispatch();
-
-  const { t } = useTranslation();
 
   const params = useParams();
 
@@ -274,11 +274,12 @@ const IDEView = () => {
                 allowResize={ide.consoleIsExpanded}
                 className="editor-preview-subpanel"
               >
-                <PreviewFrame
+                <PreviewAssistantPanel
                   fullView
-                  hide={!ide.isPlaying}
-                  cmController={cmRef.current}
                   isOverlayVisible={isOverlayVisible}
+                  files={files}
+                  consoleEvents={consoleEvents}
+                  editorControllerRef={cmRef}
                 />
                 <Console />
               </SplitPane>
@@ -339,19 +340,12 @@ const IDEView = () => {
                   />
                   <Console />
                 </SplitPane>
-                <section className="preview-frame-holder">
-                  <header className="preview-frame__header">
-                    <h2 className="preview-frame__title">
-                      {t('Toolbar.Preview')}
-                    </h2>
-                  </header>
-                  <div className="preview-frame__content">
-                    <PreviewFrame
-                      cmController={cmRef.current}
-                      isOverlayVisible={isOverlayVisible}
-                    />
-                  </div>
-                </section>
+                <PreviewAssistantPanel
+                  isOverlayVisible={isOverlayVisible}
+                  files={files}
+                  consoleEvents={consoleEvents}
+                  editorControllerRef={cmRef}
+                />
               </SplitPane>
             </SplitPane>
           </main>
